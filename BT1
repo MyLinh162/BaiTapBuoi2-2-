@@ -1,0 +1,89 @@
+USE [universityBT1]
+GO
+/****** Object:  Table [dbo].[Assigned]    Script Date: 6/28/2026 9:29:34 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Assigned](
+	[Student_ID] [int] NOT NULL,
+	[Course_ID] [int] NOT NULL,
+	[Note] [nvarchar](max) NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Course]    Script Date: 6/28/2026 9:29:34 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Course](
+	[Course_ID] [int] NOT NULL,
+	[CourseName] [nvarchar](50) NOT NULL,
+	[ProfessorID] [int] NOT NULL,
+ CONSTRAINT [PK_Course] PRIMARY KEY CLUSTERED 
+(
+	[Course_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Professor]    Script Date: 6/28/2026 9:29:34 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Professor](
+	[Employee_ID] [int] NOT NULL,
+	[ProfessorName] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Professor] PRIMARY KEY CLUSTERED 
+(
+	[Employee_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Student]    Script Date: 6/28/2026 9:29:34 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Student](
+	[Student_ID] [int] NOT NULL,
+	[StudentName] [nvarchar](50) NOT NULL,
+	[StudentBirth] [date] NULL,
+	[IsMale] [bit] NULL,
+ CONSTRAINT [PK_Student] PRIMARY KEY CLUSTERED 
+(
+	[Student_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+INSERT [dbo].[Assigned] ([Student_ID], [Course_ID], [Note]) VALUES (1, 1, NULL)
+INSERT [dbo].[Assigned] ([Student_ID], [Course_ID], [Note]) VALUES (1, 2, N'Test ')
+INSERT [dbo].[Assigned] ([Student_ID], [Course_ID], [Note]) VALUES (2, 1, NULL)
+INSERT [dbo].[Assigned] ([Student_ID], [Course_ID], [Note]) VALUES (2, 3, NULL)
+GO
+INSERT [dbo].[Course] ([Course_ID], [CourseName], [ProfessorID]) VALUES (1, N'thuật toán ', 1)
+INSERT [dbo].[Course] ([Course_ID], [CourseName], [ProfessorID]) VALUES (2, N'toán ', 2)
+INSERT [dbo].[Course] ([Course_ID], [CourseName], [ProfessorID]) VALUES (3, N'vật lý', 4)
+GO
+INSERT [dbo].[Professor] ([Employee_ID], [ProfessorName]) VALUES (1, N'A')
+INSERT [dbo].[Professor] ([Employee_ID], [ProfessorName]) VALUES (2, N'B')
+INSERT [dbo].[Professor] ([Employee_ID], [ProfessorName]) VALUES (3, N'C')
+INSERT [dbo].[Professor] ([Employee_ID], [ProfessorName]) VALUES (4, N'D')
+GO
+INSERT [dbo].[Student] ([Student_ID], [StudentName], [StudentBirth], [IsMale]) VALUES (1, N'A', CAST(N'2000-10-01' AS Date), NULL)
+INSERT [dbo].[Student] ([Student_ID], [StudentName], [StudentBirth], [IsMale]) VALUES (2, N'B', CAST(N'2000-12-01' AS Date), NULL)
+INSERT [dbo].[Student] ([Student_ID], [StudentName], [StudentBirth], [IsMale]) VALUES (3, N'C', CAST(N'2000-10-10' AS Date), 0)
+INSERT [dbo].[Student] ([Student_ID], [StudentName], [StudentBirth], [IsMale]) VALUES (4, N'D', CAST(N'2000-08-20' AS Date), 1)
+INSERT [dbo].[Student] ([Student_ID], [StudentName], [StudentBirth], [IsMale]) VALUES (5, N'E', CAST(N'2000-05-15' AS Date), NULL)
+INSERT [dbo].[Student] ([Student_ID], [StudentName], [StudentBirth], [IsMale]) VALUES (6, N'F', CAST(N'2000-05-12' AS Date), NULL)
+GO
+ALTER TABLE [dbo].[Assigned]  WITH CHECK ADD  CONSTRAINT [FK_Assigned_Student] FOREIGN KEY([Student_ID])
+REFERENCES [dbo].[Student] ([Student_ID])
+GO
+ALTER TABLE [dbo].[Assigned] CHECK CONSTRAINT [FK_Assigned_Student]
+GO
+ALTER TABLE [dbo].[Course]  WITH CHECK ADD  CONSTRAINT [FK_Course_Professor] FOREIGN KEY([ProfessorID])
+REFERENCES [dbo].[Professor] ([Employee_ID])
+GO
+ALTER TABLE [dbo].[Course] CHECK CONSTRAINT [FK_Course_Professor]
+GO
